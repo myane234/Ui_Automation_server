@@ -1,0 +1,17 @@
+{
+  "name": "exe-electron",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "myane234",
+  "type": "module",
+  "main": "electron/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "electron": "^40.6.0"
+  }
+}
