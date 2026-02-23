@@ -13,50 +13,6 @@ if (!fs.existsSync(folderName)) {
 
 
 
-// async function scrollUntilNextVisible(page) {
-//     for (let i = 0; i < 30; i++) {
-//         const exists = await page.$(nextBtnSelector);
-
-//         if (exists) {
-//             console.log("Next button found");
-//             return true;
-//         }
-
-//         await page.evaluate(() => {
-//             window.scrollBy(0, window.innerHeight / 2);
-//         });
-
-//         await delay(500);
-//     }
-
-//     return false;
-// }
-
-// Scroll untuk load semua lazy load images
-// async function autoScrollToBottom(page) {
-//     let previousHeight;
-//     let scrollCount = 0;
-
-//     while (true) {
-//         console.log(`Scroll ke bawah... (${scrollCount})`);
-//         previousHeight = await page.evaluate(() => document.body.scrollHeight);
-
-//         await page.evaluate(() => {
-//             window.scrollBy(0, window.innerHeight / 2);
-//         });
-
-//         await delay(300); // Jeda pendek
-
-//         const newHeight = await page.evaluate(() => document.body.scrollHeight);
-//         scrollCount++;
-
-//         if (newHeight === previousHeight) {
-//             console.log(` Selesai scroll setelah ${scrollCount} kali`);
-//             break;
-//         }
-//     }
-// }
-
 async function checkValidUrls(page) {
     const imageUrls = await imageSearch(page);
 
