@@ -21,7 +21,7 @@ const endpoint = 'https://aisandbox-pa.googleapis.com/v1/whisk:generateImage';
 const tokens = (process.env.BEARER_TOKEN || '').split(',').map(t => t.trim()).filter(Boolean);
 
 if (tokens.length === 0) {
-  throw new Error('Tidak ada bearer_token di .env');
+  console.log(`Gak ada Token Whisk di env`)
 }
 
 

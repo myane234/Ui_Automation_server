@@ -1,7 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
-import { ask } from './tanya.js';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const rootProject = path.resolve(__dirname, '../../')
 
 function createEnvFile(envPath) {
     const defaultContent = `# Auto Generated .env
@@ -11,9 +16,13 @@ BEARER_TOKEN=
     fs.writeFileSync(envPath, defaultContent);
 }
 
-async function env() {
+export async function env(settingsSystem) {
+
+    let gemini = settingsSystem.GeminiAPI;     
+    let tokenInput = settingsSystem.WhiskTokens;
+
     try {
-        const envPath = path.join(process.cwd(), '.env');
+        const envPath = path.join(rootProject , '.env');
         console.log(" Path:", envPath);
 
         // 1️⃣ Buat kalau belum ada
@@ -24,15 +33,15 @@ async function env() {
 
         dotenv.config({ path: envPath });
 
-        let gemini = process.env.GEMINI_API;
+        let geminiRaw = process.env.GEMINI_API;
         let tokensRaw = process.env.BEARER_TOKEN;
 
-        if (!gemini?.trim() || !tokensRaw?.trim()) {
+        if (!geminiRaw?.trim() || !tokensRaw?.trim()) {
 
             console.log(" ENV belum lengkap.");
 
-            gemini = await ask("Masukkan GEMINI_API: ");
-            const tokenInput = await ask("Masukkan BEARER_TOKEN (pisahkan dengan koma jika lebih dari satu): ");
+            // gemini = await ask("Masukkan GEMINI_API: ");
+            // const tokenInput = await ask("Masukkan BEARER_TOKEN (pisahkan dengan koma jika lebih dari satu): ");
 
             const newContent = `# Auto Generated .env
 GEMINI_API=${gemini}
@@ -65,5 +74,3 @@ BEARER_TOKEN=${tokenInput}
         throw err;
     }
 }
-
-env();

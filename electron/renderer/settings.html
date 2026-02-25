@@ -3,12 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Settings</title>
+    <style>
+        body { font-family: system-ui; margin: 12px; }
+        .container { display: flex; flex-direction: column; gap: 8px; max-width: 400px; }
+        input { padding: 6px; font-size: 14px; }
+        button { padding: 8px; font-size: 14px; cursor: pointer; }
+    </style>
 </head>
 <body>
-    <h1>Ini settings</h1>
+    <h1>Settings</h1>
 
+    <div class="container">
+        <label for="GeminiAPI">GeminiAPI:</label>
+        <input type="text" id="GeminiAPI" required>
+
+        <label for="WhiskTokens">WHISK TOKENS:</label>
+        <input type="text" id="WhiskTokens" required>
+
+        <button id="submitBtn">Submit</button>
+    </div>
 
     <a href="index.html">Balik</a>
+
+    <div id="status" style="margin-top:12px;color:green;"></div>
+
+    <script>
+        const submitBtn = document.getElementById("submitBtn");
+        const statusDiv = document.getElementById("status");
+
+        submitBtn.addEventListener("click", async () => {
+            const GeminiAPI = document.getElementById("GeminiAPI").value.trim();
+            const WhiskTokens = document.getElementById("WhiskTokens").value.trim();
+
+            if(!GeminiAPI || !WhiskTokens){
+                statusDiv.style.color = "red";
+                statusDiv.textContent = "Please fill all fields!";
+                return;
+            }
+
+            const settingsData = { GeminiAPI, WhiskTokens };
+
+            try {
+                await window.api.saveSettings(settingsData);
+                statusDiv.style.color = "green";
+                statusDiv.textContent = "Settings saved successfully!";
+            } catch(err) {
+                statusDiv.style.color = "red";
+                statusDiv.textContent = "Error saving settings: " + err;
+            }
+        });
+    </script>
 </body>
 </html>

@@ -3,6 +3,8 @@ import path from "path"
 import { fileURLToPath } from "url"
 import { main as runMain } from "../automation_server/index.js"
 import dotenv from "dotenv"
+import { env } from "../automation_server/utils/CliAsk/inputEnv.js"
+
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -53,6 +55,17 @@ ipcMain.handle("start-bot", async (event, config) => {
     } finally {
         console.log = origLog
         console.error = origErr
+    }
+})
+
+ipcMain.handle("save-settings", async (event, settingsSystem) => {
+    try {
+        await env(settingsSystem);
+        console.log("Settings saved successfully.")
+        event.sender.send("bot-stdout", "Settings saved successfully.\n")
+    } catch(err) {
+        console.error("Error saving settings:", err)
+        event.sender.send("bot-error", String(err))
     }
 })
 
